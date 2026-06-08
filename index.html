@@ -9,19 +9,26 @@
 
 <style>
 :root{
-  --bg:#f5efe6;
+  --bg:#E8E6E1;
   --text:#2d2620;
-  --muted:#8c7c6d;
-  --accent:#a86f4c;
-  --line:#d7cabe;
-  --white:#fffaf3;
+  --muted:#6f6f6f;
+  --accent:#8d6a53;
+  --line:#d1d1d1;
+  --white:#f2f2f2;
 }
 
 *{margin:0;padding:0;box-sizing:border-box;}
 html{scroll-behavior:smooth;}
-body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;overflow-x:hidden;}
+body{
+  background:var(--bg);
+  color:var(--text);
+  font-family:'Inter',sans-serif;
+  overflow-x:hidden;
+}
 a{color:inherit;text-decoration:none;}
+img{display:block;}
 
+/* NAV */
 .nav{
   position:fixed;
   top:0;
@@ -32,25 +39,164 @@ a{color:inherit;text-decoration:none;}
   justify-content:space-between;
   align-items:center;
   z-index:100;
-  background:rgba(245,239,230,.78);
+  background:color-mix(in srgb, var(--bg) 88%, transparent);
   backdrop-filter:blur(14px);
-  border-bottom:1px solid rgba(215,202,190,.55);
+  border-bottom:1px solid rgba(215,202,190,.65);
 }
 
 .logo{
-  font-size:22px;
-  letter-spacing:4px;
-  font-weight:400;
+  display:flex;
+  align-items:center;
   text-transform:uppercase;
+  text-decoration:none;
+  white-space:nowrap;
 }
-.logo strong{font-weight:800;}
 
-.menu{display:flex;gap:30px;font-size:11px;letter-spacing:2px;text-transform:uppercase;align-items:center;}
+.logo-bold{
+  font-family:'Inter',sans-serif;
+  font-size:22px;
+  font-weight:700;
+  letter-spacing:1px;
+  color:var(--text);
+}
+
+.logo-light{
+  font-family:'Inter',sans-serif;
+  font-size:22px;
+  font-weight:300;
+  letter-spacing:1px;
+  color:var(--text);
+  margin-left:2px;
+}
+
+.menu{
+  display:flex;
+  gap:30px;
+  font-size:11px;
+  letter-spacing:2px;
+  text-transform:uppercase;
+  align-items:center;
+}
 .menu a{opacity:.75;transition:.25s ease;}
 .menu a:hover{opacity:1;color:var(--accent);}
-.menu .contact-banner{border:1px solid var(--text);padding:10px 16px;border-radius:999px;opacity:1;}
-.menu .contact-banner:hover{background:var(--text);color:var(--bg);}
+.menu .contact-banner{
+  border:none;
+  padding:0;
+  border-radius:0;
+  opacity:.75;
+}
 
+.menu .contact-banner:hover{
+  background:none;
+  color:var(--accent);
+  opacity:1;
+}
+
+.projects-trigger{
+  cursor:pointer;
+}
+
+.projects-menu{
+  position:absolute;
+  top:100%;
+  left:0;
+  min-width:220px;
+  display:flex;
+  flex-direction:column;
+
+  background:var(--bg);
+
+  backdrop-filter:blur(14px);
+  border:1px solid var(--line);
+
+  padding:14px 0;
+
+  opacity:0;
+  visibility:hidden;
+  transform:translateY(10px);
+
+  transition:.25s ease;
+  z-index:999;
+
+  box-shadow:0 8px 24px rgba(0,0,0,.06);
+}
+
+.projects-menu a{
+  padding:10px 18px;
+  font-size:10px;
+  letter-spacing:2px;
+  text-transform:uppercase;
+  white-space:nowrap;
+  opacity:.75;
+}
+
+.projects-menu a:hover{
+  background:rgba(0,0,0,.04);
+  color:var(--accent);
+  opacity:1;
+}
+/* Desktop + Mobile Dropdown */
+.projects-dropdown{
+  position:relative;
+}
+
+.projects-menu{
+  position:absolute;
+  top:100%;
+  left:50%;
+  transform:translate(-50%,10px);
+
+  min-width:220px;
+  display:flex;
+  flex-direction:column;
+
+  background:var(--bg);
+  border:1px solid var(--line);
+  padding:14px 0;
+
+  opacity:0;
+  visibility:hidden;
+
+  transition:opacity .25s ease,
+             transform .25s ease,
+             visibility .25s ease;
+
+  z-index:999;
+  box-shadow:0 8px 24px rgba(0,0,0,.06);
+}
+
+.projects-dropdown:hover .projects-menu,
+.projects-dropdown.open .projects-menu{
+  opacity:1;
+  visibility:visible;
+  transform:translate(-50%,0);
+}
+
+/* MOBILE */
+@media (max-width:900px){
+
+  .projects-menu{
+    left:auto;
+    right:0;
+    transform:translateY(10px);
+    min-width:210px;
+  }
+
+  /* Disable hover on touch devices */
+  .projects-dropdown:hover .projects-menu{
+    opacity:0;
+    visibility:hidden;
+    transform:translateY(10px);
+  }
+
+  .projects-dropdown.open .projects-menu{
+    opacity:1;
+    visibility:visible;
+    transform:translateY(0);
+  }
+
+}
+/* HERO */
 .hero-gallery{
   min-height:100vh;
   padding:100px 0 0;
@@ -71,7 +217,7 @@ a{color:inherit;text-decoration:none;}
 .gallery-track{
   display:flex;
   width:max-content;
-  animation:roll 42s linear infinite;
+  animation:roll 48s linear infinite;
 }
 .rolling-gallery:hover .gallery-track{animation-play-state:paused;}
 
@@ -84,7 +230,13 @@ a{color:inherit;text-decoration:none;}
   overflow:hidden;
   background:#d8c4ae;
 }
-.hero-card img{width:100%;height:100%;object-fit:cover;filter:saturate(.92) contrast(.95);transition:.6s ease;}
+.hero-card img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  filter:saturate(.92) contrast(.95);
+  transition:.6s ease;
+}
 .hero-card:hover img{transform:scale(1.04);}
 .hero-card span{
   position:absolute;
@@ -104,157 +256,989 @@ a{color:inherit;text-decoration:none;}
 }
 
 .home-contact{
+  position:relative;
   padding:28px 42px;
-  display:grid;
-  grid-template-columns:1fr 1fr 1fr;
-  gap:20px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  width:100%;
   font-size:12px;
   letter-spacing:1.5px;
   text-transform:uppercase;
   color:var(--muted);
   border-top:1px solid var(--line);
 }
+.home-contact .contact-center{
+  position:absolute;
+  left:50%;
+  transform:translateX(-50%);
+}
 .home-contact a:hover{color:var(--accent);}
 
-.section{padding:110px 42px;}
-.section-header{display:flex;justify-content:space-between;border-top:1px solid var(--line);padding-top:22px;margin-bottom:60px;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);}
+/* SECTIONS */
+.section{
+  padding:110px 42px;
+}
+.section-header{
+  display:flex;
+  justify-content:space-between;
+  border-top:1px solid var(--line);
+  padding-top:22px;
+  margin-bottom:60px;
+  font-size:11px;
+  letter-spacing:2px;
+  text-transform:uppercase;
+  color:var(--muted);
+}
+/* PROJECT SHOWCASE GRID */
+.project-showcase{
+  padding:70px 42px 130px;
+  border-top:1px solid var(--line);
+}
 
-.projects-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;}
-.project-card{min-height:360px;display:flex;align-items:flex-end;padding:24px;background:#d8c4ae;position:relative;overflow:hidden;}
-.project-card img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:.55s ease;}
-.project-card:hover img{transform:scale(1.05);}
-.project-card::after{content:"";position:absolute;inset:0;background:linear-gradient(to top,rgba(45,38,32,.58),rgba(45,38,32,0));}
-.project-card-content{position:relative;z-index:1;color:var(--white);}
-.project-card h2{font-family:'Cormorant Garamond',serif;font-size:48px;font-weight:400;line-height:.9;margin-bottom:12px;}
-.project-card p{font-size:11px;letter-spacing:1.7px;text-transform:uppercase;}
+.project-showcase-header{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
 
-.project-detail{display:grid;grid-template-columns:.78fr 1.22fr;gap:70px;padding:120px 42px;border-top:1px solid var(--line);}
-.project-meta{position:sticky;top:120px;align-self:start;}
-.project-meta h2{font-family:'Cormorant Garamond',serif;font-size:64px;font-weight:400;line-height:.9;margin-bottom:24px;}
-.project-meta p{font-size:14px;line-height:1.8;color:#5d5147;max-width:430px;}
-.project-info{margin-top:30px;font-size:11px;letter-spacing:1.6px;line-height:2.1;text-transform:uppercase;color:var(--muted);}
-.gallery{display:grid;gap:18px;}
-.image-box{min-height:500px;background:linear-gradient(135deg,#b48b6c,#ead7c0);display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:38px;color:rgba(45,38,32,.55);text-align:center;overflow:hidden;}
-.image-box img{width:100%;height:100%;object-fit:cover;}
-.image-box.tall{min-height:720px;}
-.technical-drawing{min-height:520px;background:#fffaf3;border:1px solid var(--line);color:var(--muted);letter-spacing:1.5px;text-transform:uppercase;font-family:'Inter',sans-serif;font-size:12px;}
-.technical-drawing img{object-fit:contain;padding:24px;background:#fffaf3;}
+  padding:30px 0;
+  margin-bottom:0px;
+}
 
+.works-title{
+  font-family:'Inter',sans-serif;
+  font-size:12px;
+  font-weight:700;
+  letter-spacing:1px;
+  text-transform:uppercase;
+  color:var(--text);
 
-.about{display:grid;grid-template-columns:1fr 1.4fr;gap:80px;}
-.about h2,.contact h2{font-family:'Cormorant Garamond',serif;font-size:clamp(54px,8vw,120px);font-weight:400;line-height:.9;}
-.about-text{font-family:'Cormorant Garamond',serif;font-size:34px;line-height:1.18;max-width:760px;}
-.about-small{margin-top:36px;font-size:14px;line-height:1.9;color:#5d5147;max-width:620px;}
-.skills{margin-top:40px;display:flex;flex-wrap:wrap;gap:10px;}
-.skills span{border:1px solid var(--line);padding:9px 14px;border-radius:999px;font-size:11px;letter-spacing:1.2px;text-transform:uppercase;color:#6f6257;}
+  margin-bottom:22px;
+}
 
-.contact{min-height:75vh;display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:end;}
-.contact-links{font-family:'Cormorant Garamond',serif;font-size:42px;line-height:1.35;}
-.contact-links a,.contact-links span{display:block;border-bottom:1px solid var(--line);padding:18px 0;}
-.contact-links a:hover{color:var(--accent);}
+.works-subtitle{
+  font-family:'Inter',sans-serif;
+  font-size:11px;
+  font-weight:400;
+  letter-spacing:5px;
+  text-transform:uppercase;
+  color:var(--muted);
+}
+.project-showcase-grid{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:70px 34px;
+}
 
-footer{padding:34px 42px;display:flex;justify-content:space-between;font-size:11px;letter-spacing:1.8px;text-transform:uppercase;color:var(--muted);border-top:1px solid var(--line);}
+.project-banner{
+  min-width:0;
+}
+/* LIGHTBOX */
+.lightbox{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.92);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  z-index:9999;
+}
 
+.lightbox.open{
+  display:flex;
+}
+
+.lightbox-slider{
+  width:90vw;
+  height:88vh;
+  display:flex;
+  overflow-x:auto;
+  overflow-y:hidden;
+  scroll-snap-type:x mandatory;
+  scroll-behavior:smooth;
+  scrollbar-width:none;
+}
+
+.lightbox-slider::-webkit-scrollbar{
+  display:none;
+}
+
+.lightbox-slider img{
+  flex:0 0 100%;
+  width:100%;
+  height:100%;
+  object-fit:contain;
+  scroll-snap-align:center;
+}
+
+.lightbox-close{
+  position:absolute;
+  top:22px;
+  right:32px;
+  border:none;
+  background:none;
+  color:#fff;
+  font-size:40px;
+  line-height:1;
+  cursor:pointer;
+  z-index:10001;
+}
+
+.lightbox-nav{
+  position:absolute;
+  top:50%;
+  transform:translateY(-50%);
+  border:none;
+  background:none;
+  color:#fff;
+  font-size:60px;
+  line-height:1;
+  cursor:pointer;
+  padding:20px;
+  z-index:10001;
+}
+
+.lightbox-prev{
+  left:20px;
+}
+
+.lightbox-next{
+  right:20px;
+}
+
+/* PROJECT SLIDER */
+.project-slider{
+  aspect-ratio:4 / 3;
+  overflow-x:auto;
+  overflow-y:hidden;
+  display:flex;
+  scroll-snap-type:x mandatory;
+  scroll-behavior:smooth;
+  background:#d8c4ae;
+  border:1px solid rgba(215,202,190,.55);
+  scrollbar-width:none;
+}
+
+.project-slider::-webkit-scrollbar{
+  display:none;
+}
+
+.project-slider img{
+  width:100%;
+  height:100%;
+  flex:0 0 100%;
+  object-fit:cover;
+  object-position:center center;
+  scroll-snap-align:start;
+  cursor:zoom-in;
+}
+
+.project-slider img.fit-contain{
+  object-fit:contain;
+  background:var(--bg);
+  padding:12px;
+}
+
+/* PROJECT DOTS */
+.project-dots{
+  display:flex;
+  justify-content:center;
+  gap:12px;
+  margin:28px 0 22px;
+}
+
+.project-dots button{
+  width:8px;
+  height:8px;
+  border:1px solid var(--text);
+  border-radius:50%;
+  display:block;
+  opacity:.48;
+  background:transparent;
+  padding:0;
+  cursor:pointer;
+}
+
+.project-dots button.active{
+  background:var(--text);
+  opacity:1;
+}
+
+.project-info-card{
+  text-align:center;
+  font-size:10px;
+  letter-spacing:2px;
+  text-transform:uppercase;
+  line-height:1.65;
+  color:#203512;
+}
+
+.project-info-card strong{
+  font-weight:600;
+  margin-left:3px;
+  letter-spacing:1.8px;
+}
+.project-category{
+  margin-bottom:3px;
+  font-size:10px;
+  letter-spacing:4px;
+  text-transform:uppercase;
+  color:var(--muted);
+}
+
+.project-collaboration{
+  margin-bottom:10px;
+  font-size:10px;
+  letter-spacing:3px;
+  text-transform:uppercase;
+  color:var(--muted);
+}
+
+.project-title-small{
+  display:block;
+  margin:2px 0;
+  font-size:13px;
+  letter-spacing:3px;
+  color:#203512;
+}
+
+.project-note{
+  margin:16px auto 0;
+  max-width:700px;
+
+  text-align:center;
+
+  font-size:10px;
+  font-weight:400;
+
+  letter-spacing:1px;
+  line-height:2.1;
+
+  text-transform:none;
+
+  color:var(--muted);
+}
+
+/* ABOUT */
+.about{
+  display:grid;
+  grid-template-columns:280px 760px;
+  column-gap:120px;
+
+  justify-content:start;
+  align-items:start;
+
+  padding-left:52px;
+}
+
+.about-left{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+}
+
+.about-right{
+  padding-top:68px;
+}
+
+.about h2{
+  font-family:'Inter',sans-serif;
+  font-size:40px;
+  font-weight:700;
+  letter-spacing:1px;
+  text-transform:uppercase;
+  line-height:1;
+
+  text-align:center;
+  margin:0 0 28px 0;
+}
+
+.about-text{
+  font-family:'Inter',sans-serif;
+  font-size:10px;
+  font-weight:500;
+  letter-spacing:0.5px;
+  line-height:2;
+  text-transform:uppercase;
+  color:var(--text);
+
+  max-width:760px;
+}
+
+.about-small{
+  margin-top:24px;
+
+  font-family:'Inter',sans-serif;
+  font-size:10px;
+  font-weight:300;
+  letter-spacing:0.5px;
+  line-height:2;
+  text-transform:uppercase;
+  color:var(--muted);
+
+  max-width:760px;
+}
+
+.about-photo{
+  width:220px;
+  height:auto;
+  aspect-ratio:4/5;
+  object-fit:cover;
+  display:block;
+  margin:0;
+}
+/* CONTACT */
+.contact-section{
+  padding:100px 42px 50px;
+  background:var(--bg);
+  color:var(--text);
+  border-top:1px solid var(--line);
+}
+
+.contact-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:80px;
+  width:100%;
+  margin:0 auto 120px;
+}
+
+.contact-column{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  text-align:center;
+}
+
+.contact-column h4{
+  font-family:'Inter',sans-serif;
+  font-size:11px;
+  font-weight:500;   /* keep bold */
+  letter-spacing:2px;
+  text-transform:uppercase;
+  color:var(--text);
+  margin-bottom:22px;
+}
+
+.contact-column p,
+.contact-column a{
+  font-family:'Inter',sans-serif;
+  font-size:11px;
+  font-weight:300;
+  letter-spacing:0.5px;
+  text-transform:uppercase;
+  line-height:2.2;
+  color:var(--muted);
+  text-decoration:none;
+}
+
+.contact-column a:hover{
+  color:var(--text);
+}
+
+.contact-link{
+  border:none;
+  padding:0;
+  margin-bottom:18px;
+}
+
+.privacy-check{
+  font-family:'Inter',sans-serif;
+  font-size:11px;
+  font-weight:400;
+  letter-spacing:2px;
+  text-transform:uppercase;
+  line-height:2.2;
+  color:var(--muted);
+  max-width:380px;
+}
+
+.contact-footer{
+  text-align:center;
+  font-family:'Inter',sans-serif;
+  font-size:11px;
+  font-weight:400;
+  letter-spacing:2px;
+  text-transform:uppercase;
+  line-height:2.2;
+  color:var(--muted);
+}
+
+.contact-footer p{margin:0;}
+
+/* RESPONSIVE */
 @media(max-width:900px){
-  .nav{padding:20px 22px;align-items:flex-start;gap:18px;}
-  .logo{font-size:18px;letter-spacing:3px;}
-  .menu{gap:12px;font-size:10px;flex-wrap:wrap;justify-content:flex-end;}
+  .nav{
+    padding:20px 22px;
+    align-items:flex-start;
+    gap:18px;
+  }
+  .logo{
+    font-size:18px;
+    letter-spacing:3px;
+  }
+  .menu{
+    gap:12px;
+    font-size:10px;
+    flex-wrap:wrap;
+    justify-content:flex-end;
+  }
+
   .hero-gallery{padding-top:96px;}
-  .hero-card{width:82vw;min-width:82vw;height:62vh;}
-  .home-contact{grid-template-columns:1fr;padding:24px 22px;}
-  .section,.project-detail{padding:90px 22px;}
-  .projects-grid,.about,.contact,.project-detail{grid-template-columns:1fr;}
-  .project-meta{position:relative;top:0;}
-  .image-box,.image-box.tall,.technical-drawing{min-height:420px;}
-  footer{padding:28px 22px;flex-direction:column;gap:12px;}
+  .hero-card{
+    width:82vw;
+    min-width:82vw;
+    height:62vh;
+  }
+
+  .home-contact{
+    padding:24px 22px;
+    flex-direction:column;
+    gap:12px;
+  }
+  .home-contact .contact-center{
+    position:relative;
+    left:auto;
+    transform:none;
+  }
+
+  .section,
+  .project-showcase,
+  .contact-section{
+    padding-left:22px;
+    padding-right:22px;
+  }
+
+  .project-showcase-grid,
+  .about,
+  .contact-grid{
+    grid-template-columns:1fr;
+  }
+
+  .project-showcase{
+    padding-top:90px;
+  }
+
+  .project-showcase-header{
+    flex-direction:column;
+    align-items:flex-start;
+    gap:12px;
+  }
+
+  .works-title{
+    font-size:36px;
+  }
+
+  .about{
+    padding-top:90px;
+  }
+
+  .contact-grid{
+    gap:55px;
+    margin-bottom:80px;
+  }
 }
 </style>
 </head>
+
 <body>
 
 <nav class="nav">
-  <a href="#home" class="logo"><strong>RAVID</strong> INY</a>
+<a href="#home" class="logo">
+  <span class="logo-bold">RAVID</span><span class="logo-light">INY</span>
+</a>
+
   <div class="menu">
-    <a href="#projects">Projects</a>
+    <div class="projects-dropdown">
+  <a href="#" class="projects-trigger">Projects</a>
+
+  <div class="projects-menu">
+    <a href="#casa-leonora">Casa Leonora</a>
+    <a href="#cantina-gaja">Cantina Gaja</a>
+    <a href="#on-austin">On Austin</a>
+    <a href="#on-bicester">On Bicester Village</a>
+    <a href="#on-chicago">On Chicago</a>
+    <a href="#breaddy">Breaddy</a>
+    <a href="#royal-garden">Royal Garden Hotel</a>
+  </div>
+</div>
     <a href="#about">About</a>
     <a href="#contact" class="contact-banner">Contact</a>
   </div>
 </nav>
 
-<section class="hero-gallery" id="home">
-  <div class="rolling-gallery" aria-label="Recent projects image carousel">
-    <div class="gallery-track">
-      <a class="hero-card" href="#casa-leonora"><img src="images/casa-leonora/cover.jpg" alt="Casa Leonora"><span>Casa Leonora</span></a>
-      <a class="hero-card" href="#cantina-gaja"><img src="https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?auto=format&fit=crop&w=1400&q=80" alt="Cantina Gaja"><span>Cantina Gaja</span></a>
-      <a class="hero-card" href="#on-chicago"><img src="https://images.unsplash.com/photo-1555529771-835f59fc5efe?auto=format&fit=crop&w=1400&q=80" alt="On Chicago"><span>On Chicago</span></a>
-      <a class="hero-card" href="#breaddy"><img src="https://images.unsplash.com/photo-1554118811-1e0d58224f24?auto=format&fit=crop&w=1400&q=80" alt="Breaddy"><span>Breaddy</span></a>
-      <a class="hero-card" href="#royal-garden"><img src="https://images.unsplash.com/photo-1618220179428-22790b461013?auto=format&fit=crop&w=1400&q=80" alt="Royal Garden Hotel"><span>Royal Garden Hotel</span></a>
-      <a class="hero-card" href="#casa-leonora"><img src="images/casa-leonora/cover.jpg" alt="Casa Leonora"><span>Casa Leonora</span></a>
-      <a class="hero-card" href="#cantina-gaja"><img src="https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?auto=format&fit=crop&w=1400&q=80" alt="Cantina Gaja"><span>Cantina Gaja</span></a>
-      <a class="hero-card" href="#on-chicago"><img src="https://images.unsplash.com/photo-1555529771-835f59fc5efe?auto=format&fit=crop&w=1400&q=80" alt="On Chicago"><span>On Chicago</span></a>
-      <a class="hero-card" href="#breaddy"><img src="https://images.unsplash.com/photo-1554118811-1e0d58224f24?auto=format&fit=crop&w=1400&q=80" alt="Breaddy"><span>Breaddy</span></a>
-      <a class="hero-card" href="#royal-garden"><img src="https://images.unsplash.com/photo-1618220179428-22790b461013?auto=format&fit=crop&w=1400&q=80" alt="Royal Garden Hotel"><span>Royal Garden Hotel</span></a>
+<section class="project-showcase" id="projects">
+<div class="project-showcase-header">
+  </div>
+
+  <div class="project-showcase-grid">
+
+  <article class="project-banner" id="casa-leonora">
+    <div class="project-slider">
+      <img src="images/casa-leonora/cover.jpg" alt="Casa Leonora kitchen render">
+      <img src="images/casa-leonora/img03.jpeg" alt="Casa Leonora red arch detail">
+      <img src="images/casa-leonora/img01.jpg" alt="Casa Leonora completed kitchen">
+      <img src="images/casa-leonora/img04.jpg" alt="Casa Leonora corridor">
+      <img src="images/casa-leonora/img02.jpeg" alt="Casa Leonora bathroom render">
+      <img class="plan-image" src="images/casa-leonora/plan.png" alt="Casa Leonora floor plan">
+    </div>
+
+    <div class="project-dots"><span></span><span></span><span></span><span></span><span></span><span></span></div>
+
+    <div class="project-info-card">
+      <div class="project-category">Residential</div>
+
+      <span class="project-title-small">Casa Leonora</span>
+
+      <div class="project-meta">
+        <span>Client <strong>Private</strong></span>
+        <span>Date <strong>2025</strong></span>
+      </div>
+
+      <div class="project-meta">
+        <span>Location <strong>Milan, Italy</strong></span>
+      </div>
+
+      <div class="project-note">
+        A Milanese residence that reinterprets traditional architectural elements through a contemporary lens, balancing historic character with modern living through refined material contrasts, custom details and a youthful spatial identity.
+      </div>
+    </div>
+  </article>
+
+  <article class="project-banner" id="cantina-gaja">
+    <div class="project-slider">
+      <img src="images/cantina-gaja/gaja-01.jpeg" alt="Cantina Gaja">
+      <img src="images/cantina-gaja/gaja-02.jpeg" alt="Cantina Gaja">
+      <img src="images/cantina-gaja/gaja-03.jpeg" alt="Cantina Gaja">
+      <img src="images/cantina-gaja/gaja-04.jpeg" alt="Cantina Gaja">
+      <img src="images/cantina-gaja/gaja-05.jpeg" alt="Cantina Gaja">
+      <img src="images/cantina-gaja/gaja-06.jpeg" alt="Cantina Gaja">
+      <img src="images/cantina-gaja/gaja-07.jpeg" alt="Cantina Gaja">
+      <img src="images/cantina-gaja/gaja-08.jpeg" alt="Cantina Gaja">
+    </div>
+
+    <div class="project-dots"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+
+    <div class="project-info-card">
+      <div class="project-category">Hospitality</div>
+    <div class="project-collaboration">
+      In collaboration with Locatelli Partners
+    </div>
+
+      <span class="project-title-small">Cantina Gaja</span>
+
+      <div class="project-meta">
+        <span>Client <strong>Gaja</strong></span>
+        <span>Date <strong>2025</strong></span>
+      </div>
+
+      <div class="project-meta">
+        <span>Location <strong>Trezzo Tinella, Italy</strong></span>
+      </div>
+
+      <div class="project-note">
+        Rooted in the character of the Langhe landscape and the existing architecture, the project reimagines the winery interiors through a restrained palette of materials, soft lighting and bespoke details, creating a refined yet inviting setting for tasting and convivial moments.
+      </div>
+    </div>
+  </article>
+
+ <article class="project-banner" id="on-austin">
+  <div class="project-slider">
+    <img src="images/on-austin/austin-01.jpg" alt="On Austin interior">
+    <img src="images/on-austin/austin-02.jpg" alt="On Austin interior">
+    <img src="images/on-austin/austin-03.jpg" alt="On Austin display">
+    <img src="images/on-austin/austin-04.jpg" alt="On Austin retail">
+    <img src="images/on-austin/austin-05.jpg" alt="On Austin detail">
+  </div>
+
+  <div class="project-dots">
+    <span></span><span></span><span></span><span></span><span></span>
+  </div>
+
+  <div class="project-info-card">
+    <div class="project-category">Retail</div>
+
+    <div class="project-collaboration">
+      In collaboration with Locatelli Partners
+    </div>
+
+    <span class="project-title-small">On Austin</span>
+
+    Client <strong>On</strong> · Date <strong>2024</strong><br>
+    Location <strong>Austin, Texas, USA</strong>
+
+    <div class="project-note">
+     A flagship retail environment for On in Austin, combining custom display systems, immersive brand storytelling and a refined architectural language to create a dynamic and contemporary customer experience.
     </div>
   </div>
+  </article>
 
-  <div class="home-contact" id="home-contact">
-    <a href="mailto:Ravidiny11@gmail.com">Ravidiny11@gmail.com</a>
-    <a href="https://www.linkedin.com/in/ravidiny" target="_blank">LinkedIn</a>
-    <span>Milan, Italy</span>
+  <article class="project-banner" id="on-bicester">
+  <div class="project-slider">
+    <img src="images/on-bicester/bicester-01.jpg" alt="On Bicester interior">
+    <img class="fit-contain" src="images/on-bicester/bicester-02.jpeg" alt="On Bicester exterior">
+    <img src="images/on-bicester/bicester-03.jpg" alt="On Bicester retail">
+    <img src="images/on-bicester/bicester-04.jpg" alt="On Bicester detail">
+    <img src="images/on-bicester/bicester-05.jpg" alt="On Bicester display">
+    <img src="images/on-bicester/bicester-06.jpg" alt="On Bicester retail">
   </div>
-</section>
 
-<section class="section" id="projects">
-  <div class="section-header"><span>Projects</span><span>Tap a category to enter</span></div>
-  <div class="projects-grid">
-    <a class="project-card" href="#casa-leonora"><img src="images/casa-leonora/cover.jpg" alt="Casa Leonora"><div class="project-card-content"><h2>Casa Leonora</h2><p>Residential · 2025</p></div></a>
-    <a class="project-card" href="#cantina-gaja"><img src="https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?auto=format&fit=crop&w=1200&q=80" alt="Cantina Gaja"><div class="project-card-content"><h2>Cantina Gaja</h2><p>Commercial · 2025</p></div></a>
-    <a class="project-card" href="#on-chicago"><img src="https://images.unsplash.com/photo-1555529771-835f59fc5efe?auto=format&fit=crop&w=1200&q=80" alt="On Chicago"><div class="project-card-content"><h2>On Chicago</h2><p>Retail · 2024</p></div></a>
-    <a class="project-card" href="#breaddy"><img src="https://images.unsplash.com/photo-1554118811-1e0d58224f24?auto=format&fit=crop&w=1200&q=80" alt="Breaddy"><div class="project-card-content"><h2>Breaddy</h2><p>Commercial · 2023</p></div></a>
-    <a class="project-card" href="#royal-garden"><img src="https://images.unsplash.com/photo-1618220179428-22790b461013?auto=format&fit=crop&w=1200&q=80" alt="Royal Garden Hotel"><div class="project-card-content"><h2>Royal Garden Hotel</h2><p>Hospitality · 2023</p></div></a>
+  <div class="project-dots">
+    <span></span><span></span><span></span><span></span><span></span><span></span>
   </div>
-</section>
 
-<!-- PROJECT TEMPLATE: each project contains 5 image spaces + 1 technical drawing space. Replace image placeholders with your project photos. -->
-<section class="project-detail" id="casa-leonora">
-  <div class="project-meta">
-    <h2>Casa Leonora</h2>
-    <p>A private residential project in Milan defined by warm tonal contrasts, rounded thresholds, graphic flooring and a strong domestic identity.</p>
-    <div class="project-info">Private Residential<br>Milan, Italy<br>2025</div>
+  <div class="project-info-card">
+    <div class="project-category">Retail</div>
+
+    <div class="project-collaboration">
+      In collaboration with Locatelli Partners
+    </div>
+
+    <span class="project-title-small">On Bicester Village</span>
+
+    Client <strong>On</strong> · Date <strong>2024</strong><br>
+    Location <strong>Bicester, United Kingdom</strong>
+
+    <div class="project-note">
+      A retail environment for On at Bicester Village, combining modular display systems, refined architectural detailing and a contemporary spatial identity within one of Europe’s leading luxury retail destinations.
+    </div>
   </div>
-  <div class="gallery">
-    <div class="image-box tall"><img src="images/casa-leonora/cover.jpg" alt="Casa Leonora kitchen render with red arch"></div>
-    <div class="image-box"><img src="images/casa-leonora/img01.jpg" alt="Casa Leonora completed kitchen"></div>
-    <div class="image-box tall"><img src="images/casa-leonora/img02.jpg" alt="Casa Leonora bathroom render"></div>
-    <div class="image-box"><img src="images/casa-leonora/img03.jpg" alt="Casa Leonora red arch detail"></div>
-    <div class="image-box tall"><img src="images/casa-leonora/img04.jpg" alt="Casa Leonora corridor with patterned floor and red wall"></div>
-    <div class="image-box technical-drawing"><img src="images/casa-leonora/plan.png" alt="Casa Leonora floor plan technical drawing"></div>
+</article>
+
+<article class="project-banner" id="on-chicago">
+  <div class="project-slider">
+    <img src="images/on-chicago/chicago-01.jfif" alt="On Chicago exterior">
+    <img src="images/on-chicago/chicago-02.jfif" alt="On Chicago shoe display">
+    <img src="images/on-chicago/chicago-03.jfif" alt="On Chicago retail interior">
+    <img src="images/on-chicago/chicago-04.jfif" alt="On Chicago display area">
+    <img src="images/on-chicago/chicago-05.jfif" alt="On Chicago brand installation">
   </div>
+
+  <div class="project-dots">
+    <span></span><span></span><span></span><span></span><span></span><span></span>
+  </div>
+
+  <div class="project-info-card">
+    <div class="project-category">Retail</div>
+
+    <div class="project-collaboration">
+      In collaboration with Locatelli Partners
+    </div>
+
+    <span class="project-title-small">On Chicago</span>
+
+    Client <strong>On</strong> · Date <strong>2024</strong><br>
+    Location <strong>Chicago, USA</strong>
+
+    <div class="project-note">
+      A flagship retail environment combining precision detailing, material contrast and a flexible commercial interior for performance and design.
+    </div>
+  </div>
+  </article>
+
+  <article class="project-banner" id="breaddy">
+    <div class="project-slider">
+      <img src="images/breaddy/breaddy-07.jpg" alt="Breaddy joinery detail">
+     <img src="images/breaddy/breaddy-01.jpg" alt="Breaddy bakery detail">
+      <img src="images/breaddy/breaddy-03.jpg" alt="Breaddy main counter">
+      <img src="images/breaddy/breaddy-02.jpg" alt="Breaddy seating area">
+      <img src="images/breaddy/breaddy-06.jpg" alt="Breaddy window seating">
+      <img src="images/breaddy/breaddy-04.jpg" alt="Breaddy wall detail">
+      <img src="images/breaddy/breaddy-05.jpg" alt="Breaddy joinery detail">
+<img src="images/breaddy/plan.png" alt="Breaddy joinery detail">
+
+    </div>
+
+
+    <div class="project-dots"><span></span><span></span><span></span><span></span><span></span><span></span></div>
+
+    <div class="project-info-card">
+      <div class="project-category">Hospitality</div>
+
+      <span class="project-title-small">Breaddy</span>
+
+      <div class="project-meta">
+        <span>Client <strong>Breaddy</strong></span>
+        <span>Date <strong>2023</strong></span>
+      </div>
+
+      <div class="project-meta">
+        <span>Location <strong>Milan, Italy</strong></span>
+      </div>
+
+      <div class="project-note">
+        A contemporary French boulangerie in the heart of Milan, blending the timeless charm of traditional bakery interiors with modern detailing, warm materials and an inviting café atmosphere.
+      </div>
+    </div>
+  </article>
+
+  <article class="project-banner" id="royal-garden">
+    <div class="project-slider">
+      <img src="images/royal-garden/royal-garden-01.jpg" alt="Royal Garden Hotel bedroom">
+      <img src="images/royal-garden/royal-garden-02.jpg" alt="Royal Garden Hotel conference hall">
+      <img src="images/royal-garden/royal-garden-03.jpeg" alt="Royal Garden Hotel exterior">
+      <img src="images/royal-garden/royal-garden-04.jpg" alt="Royal Garden Hotel living area">
+      <img src="images/royal-garden/royal-garden-05.jpg" alt="Royal Garden Hotel guest room">
+      <img src="images/royal-garden/royal-garden-06.jpg" alt="Royal Garden Hotel corridor">
+    </div>
+
+    <div class="project-dots"><span></span><span></span><span></span><span></span><span></span><span></span></div>
+
+    <div class="project-info-card">
+      <div class="project-category">Hospitality</div>
+
+      <span class="project-title-small">Royal Garden Hotel</span>
+
+      <div class="project-meta">
+        <span>Client <strong>Royal Garden Hotel</strong></span>
+        <span>Date <strong>2023</strong></span>
+      </div>
+
+      <div class="project-meta">
+        <span>Location <strong>Assago, Italy</strong></span>
+      </div>
+
+      <div class="project-note">
+        A hospitality restyling project focused on guest rooms and public spaces through warm materials, lighting and a cohesive architectural language.
+      </div>
+    </div>
+  </article>
+
+</div>
 </section>
-<section class="project-detail" id="cantina-gaja"><div class="project-meta"><h2>Cantina Gaja</h2><p>A restoration and interior project balancing existing architecture with new spatial interventions, custom furniture and a refined material palette.</p><div class="project-info">Commercial · Restoration<br>Trezzo Tinella, Italy<br>2025<br>In collaboration with Locatelli Partners</div></div><div class="gallery"><div class="image-box">Cantina Gaja<br>Image 01</div><div class="image-box tall">Cantina Gaja<br>Image 02</div><div class="image-box">Cantina Gaja<br>Image 03</div><div class="image-box">Cantina Gaja<br>Image 04</div><div class="image-box tall">Cantina Gaja<br>Image 05</div><div class="image-box technical-drawing">Technical Drawing / Plan</div></div></section>
-<section class="project-detail" id="on-chicago"><div class="project-meta"><h2>On Chicago</h2><p>A flagship retail environment developed through architectural services, drawing sets, consultant coordination and millwork supervision.</p><div class="project-info">Retail Flagship<br>Chicago, USA<br>2024<br>In collaboration with Locatelli Partners</div></div><div class="gallery"><div class="image-box tall">On Chicago<br>Image 01</div><div class="image-box">On Chicago<br>Image 02</div><div class="image-box">On Chicago<br>Image 03</div><div class="image-box">On Chicago<br>Image 04</div><div class="image-box tall">On Chicago<br>Image 05</div><div class="image-box technical-drawing">Technical Drawing / Plan</div></div></section>
-<section class="project-detail" id="breaddy"><div class="project-meta"><h2>Breaddy</h2><p>A French-inspired bakery in Milan, combining vintage boulangerie references with contemporary warmth, soft lighting, marble, rattan and wood accents.</p><div class="project-info">Bakery · Commercial<br>Milan, Italy<br>2023<br>In collaboration with Nick Maltese Studio</div></div><div class="gallery"><div class="image-box">Breaddy<br>Image 01</div><div class="image-box tall">Breaddy<br>Image 02</div><div class="image-box">Breaddy<br>Image 03</div><div class="image-box">Breaddy<br>Image 04</div><div class="image-box tall">Breaddy<br>Image 05</div><div class="image-box technical-drawing">Technical Drawing / Plan</div></div></section>
-<section class="project-detail" id="royal-garden"><div class="project-meta"><h2>Royal Garden Hotel</h2><p>A hospitality restyling project conceived as a green urban retreat, balancing Milanese elegance with warmth, comfort and layered lighting.</p><div class="project-info">Hospitality<br>Assago, Italy<br>2023<br>In collaboration with Nick Maltese Studio</div></div><div class="gallery"><div class="image-box tall">Royal Garden Hotel<br>Image 01</div><div class="image-box">Royal Garden Hotel<br>Image 02</div><div class="image-box">Royal Garden Hotel<br>Image 03</div><div class="image-box">Royal Garden Hotel<br>Image 04</div><div class="image-box tall">Royal Garden Hotel<br>Image 05</div><div class="image-box technical-drawing">Technical Drawing / Plan</div></div></section>
 
 <section class="section about" id="about">
-  <div><h2>About</h2></div>
-  <div>
-    <div class="about-text">Ravid Iny is an Interior Designer and Project Manager based in Milan, working across residential, hospitality, retail and commercial environments.</div>
-    <div class="about-small">His practice combines concept development, spatial planning, technical coordination and custom furniture design. With international experience across Europe and the United States, his work is guided by materiality, proportion and atmospheric detail.</div>
-    <div class="skills"><span>Interior Design</span><span>Project Management</span><span>Space Planning</span><span>Custom Furniture</span><span>3D Design</span><span>Technical Drawings</span><span>Consultant Coordination</span></div>
+
+  <div class="about-left">
+
+    <h2>About</h2>
+
+    <img
+      class="about-photo"
+      src="images/profile/ravid.jpg"
+      alt="Ravid Iny portrait">
+
   </div>
+
+  <div class="about-right">
+
+    <div class="about-text">
+     Ravid Iny is an Interior Designer and Project Manager based in Milan, with experience across residential, hospitality and retail projects throughout Europe and the United States.
+    </div>
+
+    <div class="about-small">
+      His work combines a strong design sensibility with a practical understanding of how projects are developed, coordinated and delivered. From private residences and hospitality environments to international retail spaces, he has worked across all stages of the design process, from concept development and spatial planning to technical detailing, consultant coordination and construction support.
+
+      <br><br>
+
+      Having collaborated with multidisciplinary teams on projects for both independent clients and global brands, Ravid approaches each project with a balance of creativity, precision and attention to detail. He is particularly interested in creating spaces that feel considered, functional and enduring, where architecture, materials and atmosphere come together to support the way people live, work and interact..
+    </div>
+
+  </div>
+
 </section>
 
-<section class="section contact" id="contact">
-  <div><h2>Contact</h2></div>
-  <div class="contact-links">
-    <a href="mailto:Ravidiny11@gmail.com">Ravidiny11@gmail.com</a>
-    <a href="https://www.linkedin.com/in/ravidiny" target="_blank">LinkedIn</a>
-    <span>Milan, Italy</span>
+<section id="contact" class="contact-section">
+
+  <div class="contact-grid">
+
+    <div class="contact-column">
+      <h4>CONTACT</h4>
+      <p>Ravid Iny</p>
+      <p><a href="mailto:Ravidiny11@gmail.com">Ravidiny11@gmail.com</a></p>
+    </div>
+
+    <div class="contact-column">
+      <h4>CONNECT</h4>
+      <a href="mailto:Ravidiny11@gmail.com" class="contact-link">Send an email →</a>
+      <div class="privacy-check">
+        <span>Available for freelance projects, collaborations and design opportunities.</span>
+      </div>
+    </div>
+
+    <div class="contact-column">
+      <h4>SOCIAL MEDIA</h4>
+  <a href="https://www.linkedin.com/in/ravid-iny-2b28b4128/" target="_blank">linkedin</a>
+      <a href="https://www.instagram.com/" target="_blank">instagram</a>
+    </div>
+
   </div>
+
+<div class="contact-footer">
+  <p>© 2026 Ravid Iny</p>
+  <p>Interior Designer & Project Manager </p>
+ Milan, Italy</p>
+  </div>
+
 </section>
 
-<footer><span>© 2026 Ravid Iny</span><span>Interior Design · Milan</span></footer>
+<div class="lightbox" id="lightbox">
+  <button class="lightbox-close" type="button" aria-label="Close image">×</button>
+
+  <div class="lightbox-slider"></div>
+
+  <button class="lightbox-nav lightbox-prev" type="button" aria-label="Previous image">‹</button>
+  <button class="lightbox-nav lightbox-next" type="button" aria-label="Next image">›</button>
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const projectBanners = document.querySelectorAll(".project-banner");
+
+  projectBanners.forEach((banner) => {
+    const slider = banner.querySelector(".project-slider");
+    if (!slider) return;
+
+    const images = Array.from(slider.querySelectorAll("img"));
+    const dotsContainer = banner.querySelector(".project-dots");
+
+    if (!images.length || !dotsContainer) return;
+
+    // Rebuild dots as clickable buttons
+    dotsContainer.innerHTML = "";
+
+    images.forEach((_, index) => {
+      const button = document.createElement("button");
+      button.type = "button";
+      button.setAttribute("aria-label", `View image ${index + 1}`);
+      if (index === 0) button.classList.add("active");
+
+      button.addEventListener("click", (event) => {
+        event.stopPropagation();
+        slider.scrollTo({
+          left: slider.clientWidth * index,
+          behavior: "smooth"
+        });
+      });
+
+      dotsContainer.appendChild(button);
+    });
+
+    const dots = Array.from(dotsContainer.querySelectorAll("button"));
+
+    const updateDots = () => {
+      const index = Math.round(slider.scrollLeft / slider.clientWidth);
+      dots.forEach((dot, i) => {
+        dot.classList.toggle("active", i === index);
+      });
+    };
+
+    slider.addEventListener("scroll", () => {
+      window.requestAnimationFrame(updateDots);
+    });
+
+    // Auto-scroll each project banner
+    let currentIndex = 0;
+
+    const autoplay = setInterval(() => {
+      currentIndex = (currentIndex + 1) % images.length;
+      slider.scrollTo({
+        left: slider.clientWidth * currentIndex,
+        behavior: "smooth"
+      });
+    }, 3500);
+
+    // Pause autoplay when user interacts
+    const stopAutoplay = () => {
+      clearInterval(autoplay);
+    };
+
+    slider.addEventListener("mouseenter", stopAutoplay);
+    slider.addEventListener("touchstart", stopAutoplay, { passive: true });
+    slider.addEventListener("click", stopAutoplay);
+    dotsContainer.addEventListener("click", stopAutoplay);
+  });
+
+  // Projects dropdown menu for mobile
+  const projectsTrigger = document.querySelector(".projects-trigger");
+  const projectsDropdown = document.querySelector(".projects-dropdown");
+
+  if (projectsTrigger && projectsDropdown) {
+    projectsTrigger.addEventListener("click", (e) => {
+      if (window.innerWidth <= 900) {
+        e.preventDefault();
+        projectsDropdown.classList.toggle("open");
+      }
+    });
+  }
+
+  // Project image lightbox with horizontal scrolling
+  const lightbox = document.querySelector("#lightbox");
+  const lightboxSlider = document.querySelector(".lightbox-slider");
+  const lightboxClose = document.querySelector(".lightbox-close");
+  const lightboxPrev = document.querySelector(".lightbox-prev");
+  const lightboxNext = document.querySelector(".lightbox-next");
+
+  if (lightbox && lightboxSlider && lightboxClose && lightboxPrev && lightboxNext) {
+    document.querySelectorAll(".project-slider img").forEach((img) => {
+      img.addEventListener("click", () => {
+        const projectSlider = img.closest(".project-slider");
+        if (!projectSlider) return;
+
+        const projectImages = Array.from(projectSlider.querySelectorAll("img"));
+        const clickedIndex = projectImages.indexOf(img);
+
+        lightboxSlider.innerHTML = "";
+
+        projectImages.forEach((projectImage) => {
+          const clone = document.createElement("img");
+          clone.src = projectImage.src;
+          clone.alt = projectImage.alt || "";
+          lightboxSlider.appendChild(clone);
+        });
+
+        lightbox.classList.add("open");
+        document.body.style.overflow = "hidden";
+
+        window.requestAnimationFrame(() => {
+          lightboxSlider.scrollLeft = lightboxSlider.clientWidth * clickedIndex;
+        });
+      });
+    });
+
+    const closeLightbox = () => {
+      lightbox.classList.remove("open");
+      lightboxSlider.innerHTML = "";
+      document.body.style.overflow = "";
+    };
+
+    const scrollLightbox = (direction) => {
+      lightboxSlider.scrollBy({
+        left: lightboxSlider.clientWidth * direction,
+        behavior: "smooth"
+      });
+    };
+
+    lightboxClose.addEventListener("click", closeLightbox);
+
+    lightbox.addEventListener("click", (e) => {
+      if (e.target === lightbox) {
+        closeLightbox();
+      }
+    });
+
+    lightboxPrev.addEventListener("click", (e) => {
+      e.stopPropagation();
+      scrollLightbox(-1);
+    });
+
+    lightboxNext.addEventListener("click", (e) => {
+      e.stopPropagation();
+      scrollLightbox(1);
+    });
+
+    document.addEventListener("keydown", (e) => {
+      if (!lightbox.classList.contains("open")) return;
+
+      if (e.key === "Escape") closeLightbox();
+      if (e.key === "ArrowLeft") scrollLightbox(-1);
+      if (e.key === "ArrowRight") scrollLightbox(1);
+    });
+  }
+});
+</script>
 
 </body>
 </html>
